@@ -44,5 +44,4 @@ void CA::Step()
 
 	// copy color buffer to texture
 	texture->Copy(color_buffer);
-}
 
