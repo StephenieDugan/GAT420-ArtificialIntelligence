@@ -5,11 +5,12 @@
 #include <glm/glm.hpp>
 #include <iostream>
 #include <memory>
+#include "GameofLife.h"
 
 int main(int, char**)
 {
 	glm::ivec2 screen_size{ 800, 600 };
-	glm::ivec2 env_size{ 200, 100 };
+	glm::ivec2 env_size{ 800, 600 };
 
 	// create renderer
 	Renderer renderer;
@@ -20,7 +21,7 @@ int main(int, char**)
 	std::shared_ptr<Texture> texture = std::make_unique<Texture>(env_size.x, env_size.y, renderer);
 
 	// create environment
-	std::unique_ptr<Environment> env = std::make_unique<CA>(env_size.x, env_size.y, texture);
+	std::unique_ptr<Environment> env = std::make_unique<GameofLife>(env_size.x, env_size.y, texture);
 	env->Initialize();
 
 	bool quit = false;
