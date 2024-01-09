@@ -16,8 +16,8 @@ void GameofLife::Step()
 {
     frame++;
 
-    std::vector<uint8_t>& readBuffer = (frame % 2 == 0) ? bufferA : bufferB;
-    std::vector<uint8_t>& writeBuffer = (frame % 2 == 0) ? bufferB : bufferA;
+    std::vector<uint8_t>& readBuffer = (frame % 2) ? bufferA : bufferB;
+    std::vector<uint8_t>& writeBuffer = (frame % 2) ? bufferB : bufferA;
 
     // Update buffer
     std::fill(writeBuffer.begin(), writeBuffer.end(), 0);
@@ -72,7 +72,10 @@ void GameofLife::KeyDown(SDL_Keycode keycode)
     { 
         // write random 'alive' cells to buffer
         std::vector<uint8_t>& writeBuffer = (frame % 2) ? bufferB : bufferA;
-        for (int i = 0; i < writeBuffer.size(); i++) writeBuffer[i] = (random(0, 10) == 0) ? 1 : 0;
+        for (int i = 0; i < writeBuffer.size(); i++)
+        {
+            writeBuffer[i] = (random(0, 10) == 0) ? 1 : 0;
+        }
     }
 }
 
