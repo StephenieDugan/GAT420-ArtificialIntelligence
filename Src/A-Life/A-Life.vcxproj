@@ -183,6 +183,7 @@
     <ClInclude Include="Environment.h" />
     <ClInclude Include="GameofLife.h" />
     <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Texture.h" />

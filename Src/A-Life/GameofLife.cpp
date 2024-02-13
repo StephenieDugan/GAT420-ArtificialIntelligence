@@ -68,7 +68,7 @@ void GameofLife::Step()
 
 void GameofLife::KeyDown(SDL_Keycode keycode)
 {
-    if (keycode == SDLK_s)
+    if (keycode == SDLK_r)
     { 
         // write random 'alive' cells to buffer
         std::vector<uint8_t>& writeBuffer = (frame % 2) ? bufferB : bufferA;

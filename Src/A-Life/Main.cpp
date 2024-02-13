@@ -1,4 +1,5 @@
 #include "CA.h"
+#include "Node.h"
 #include "Renderer.h"
 #include "Texture.h"
 
@@ -9,7 +10,58 @@
 
 int main(int, char**)
 {
-	glm::ivec2 screen_size{ 800, 600 };
+	float temperature = 30.0;
+	bool sunny = true;
+	float windSpeed = 5.0;
+	bool highHumidity = true;
+
+	node_t* playSportsAction = new action_t("Play outdoor sports");
+	node_t* stayInsideAction = new action_t("Stay inside");
+
+	node_t* weatherDecision = new decision_t<bool>("Weather (Sunny)", sunny, ePredicate::Equal, true);
+	node_t* temperatureDecision = new decision_t<float>("Temperature (Hot)", temperature, ePredicate::Greater, 25.0); 
+	node_t* windyDecision = new decision_t<float>("Windy?", windSpeed, ePredicate::Equal, true);
+	node_t* windSpeedDecision = new decision_t<float>("Wind Speed (High)", windSpeed, ePredicate::Greater, 10.0);
+	node_t* humidityDecision = new decision_t<bool>("Humidity (High)", highHumidity, ePredicate::Equal, true);
+						//						Weather(Sunny)
+						//					 /				   \
+							   Temperature(Hot)			 Humidity(High)
+						//	  /    |         \			/			\
+					Play Sports  Stay Inside Windy?	Play Sports  Stay Inside
+//												|
+						//                Wind Speed (High)
+						//                      / \
+									 Play Sports  Stay Inside
+
+	weatherDecision->trueNode = temperatureDecision;
+	weatherDecision->falseNode = stayInsideAction;
+
+	temperatureDecision->trueNode = playSportsAction;
+	temperatureDecision->falseNode = humidityDecision;
+
+	humidityDecision->trueNode = windyDecision;
+	humidityDecision->falseNode = playSportsAction;
+
+	windyDecision->trueNode = stayInsideAction;
+	windyDecision->falseNode = windSpeedDecision;
+
+	windSpeedDecision->trueNode = playSportsAction;
+	windSpeedDecision->falseNode = stayInsideAction;
+
+	// Traverse the decision tree from the root
+	traverse(weatherDecision);
+
+	// Cleanup
+	delete playSportsAction;
+	delete stayInsideAction;
+	delete weatherDecision;
+	delete temperatureDecision;
+	delete humidityDecision;
+	delete windyDecision;
+	delete windSpeedDecision;
+
+	return 0;
+	/*glm::ivec2 screen_size{800, 600};
 	glm::ivec2 env_size{ 800, 600 };
 
 	// create renderer
@@ -64,5 +116,5 @@ int main(int, char**)
 
 	renderer.Shutdown();
 
-	return 0;
+	return 0;*/
 }
